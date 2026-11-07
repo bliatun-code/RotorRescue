@@ -1,8 +1,8 @@
 -- Rotor Rescue: a two-axis, fixed-pitch RC helicopter game for ETHOS.
-local VERSION = "0.6.2"
+local VERSION = "0.6.4"
 local ROOT = "SCRIPTS:/RotorRescue/"
 local STEP, FRAME, GRAVITY = 1 / 60, 1 / 30, 9.81
-local AUDIO_LENGTH, AUDIO_LEAD, AUDIO_SHIFT = 0.750, 0.060, 0.200
+local AUDIO_LENGTH, AUDIO_LEAD, AUDIO_SHIFT = 0.750, 0.120, 0.200
 local BOARD_TIME, DELIVERY, SCORE_LIMIT = 1.6, 300, 5
 local SCORE_FILES = { ROOT .. "scores-a.dat", ROOT .. "scores-b.dat" }
 local WIDTH, CEILING, SKID = 76, 30, 0.92
@@ -127,7 +127,11 @@ end
 
 local function create()
     local throttle, cyclic = sticks()
-    local g = { throttle = throttle, cyclic = cyclic, nextLookup = 0, power = 1, stick = 0, mute = false }
+    local version = system.getVersion and system.getVersion()
+    local board = type(version) == "table" and version.board
+    local buildLabel = type(board) == "string" and board ~= "" and (board .. "  /  " .. VERSION) or VERSION
+    local g = { throttle = throttle, cyclic = cyclic, nextLookup = 0, power = 1, stick = 0, mute = false,
+        buildLabel = buildLabel }
     loadScores(g)
     reset(g)
     return g
@@ -481,7 +485,7 @@ local function paint(g)
 
     box(0, 0, w, 47, "night")
     label(15, 6, "ROTOR RESCUE", FONT_STD, "white")
-    label(16, 28, "X20RS  /  " .. VERSION, FONT_XS, "dim")
+    label(16, 28, g.buildLabel, FONT_XS, "dim")
     local passengers = g.mode == "won" and "DELIVERED" or "ON BOARD"
     label(w * 0.5, 5, string.format("%03d PTS  /  %d %s", g.score, g.cargo, passengers), FONT_STD, "amber", CENTERED)
     local run = g.retries == 0 and "CLEAN RUN" or string.format("RETRIES %d", g.retries)

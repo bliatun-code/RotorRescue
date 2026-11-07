@@ -2,7 +2,7 @@
 
 Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six passengers from three mountain pads and get them safely back to Base. The game runs directly on the radio as an ETHOS System tool.
 
-**[Download Rotor Rescue 0.6.2](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.2/RotorRescue-0.6.2-X20RS.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
+**[Download Rotor Rescue 0.6.4](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.4/RotorRescue-0.6.4.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
 
 [![Video cover for Rotor Rescue on FrSky ETHOS. Click to watch the flight demo.](docs/images/video-cover.png)](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
@@ -10,7 +10,7 @@ Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six p
 
 ## Radio compatibility
 
-Rotor Rescue 0.6.2 passed the 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2). **Physical radio testing has been completed on the X20RS only.**
+Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
 
 | FrSky radio | Simulator | Physical radio |
 | --- | --- | --- |
@@ -21,11 +21,11 @@ Rotor Rescue 0.6.2 passed the 800 × 480 display, stick control and engine audio
 | X18R | Passed | — |
 | X18RS | Passed | — |
 
-The X18R and X18RS render slightly larger text. Version 0.6.2 shows `X20RS / 0.6.2` in the game header on all models.
+The game header shows the radio model reported by ETHOS beside the game version. The X18R and X18RS render slightly larger text.
 
 ## Install and start
 
-1. Download the `RotorRescue-0.6.2-X20RS.zip` release asset. Leave the ZIP intact.
+1. Download the `RotorRescue-0.6.4.zip` release asset. Leave the ZIP intact.
 2. Connect the radio to FrSky Suite. Open **Lua library → Install Lua Scripts**, select the ZIP and install it.
 3. Safely disconnect and restart the radio. Open **System → Rotor Rescue**. Swipe to the next System page if the tile is off screen.
 
@@ -46,7 +46,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 | --- | --- |
 | ![Two passengers wait beside the helicopter during boarding.](docs/images/boarding.png) | ![Mission complete after returning six passengers to Base.](docs/images/mission-complete.png) |
 
-The menu and gameplay screenshots were captured in the X20RS simulator.
+The menu and gameplay screenshots were captured in the X20RS simulator with version 0.6.2.
 
 ## Beat the score
 

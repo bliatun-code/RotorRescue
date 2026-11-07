@@ -1,8 +1,8 @@
 # Kom i gang med Rotor Rescue
 
-Rotor Rescue er et helikopterspill du styrer med stikkene på FrSky X20RS. Hent to passasjerer ved hver av de tre fjellplattformene, og land med alle seks på Base.
+Rotor Rescue er et helikopterspill du styrer med stikkene på en FrSky-radio med ETHOS. Hent to passasjerer ved hver av de tre fjellplattformene, og land med alle seks på Base. X20RS er fysisk radiotestet. [Simulatortestede modeller](../README.md#radio-compatibility)
 
-1. Last ned [Rotor Rescue 0.6.2](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.2/RotorRescue-0.6.2-X20RS.zip) fra GitHub.
+1. Last ned [Rotor Rescue 0.6.4](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.4/RotorRescue-0.6.4.zip) fra GitHub.
 2. Koble radioen til FrSky Suite. Velg **Lua library → Install Lua Scripts**, velg ZIP-filen og installer den.
 3. Koble fra og start radioen på nytt. Åpne **System → Rotor Rescue**. Sveip til neste side hvis du ikke ser spillet.
 
