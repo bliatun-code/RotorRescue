@@ -1,12 +1,27 @@
 # Rotor Rescue
 
-Fly a rescue helicopter with the sticks on your FrSky X20RS. Pick up six passengers from three mountain pads and get them safely back to Base. The game runs directly on the radio as an ETHOS System tool.
+Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six passengers from three mountain pads and get them safely back to Base. The game runs directly on the radio as an ETHOS System tool.
 
 **[Download Rotor Rescue 0.6.2](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.2/RotorRescue-0.6.2-X20RS.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
 
 [![Video cover for Rotor Rescue on FrSky ETHOS. Click to watch the flight demo.](docs/images/video-cover.png)](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
 [Watch a full flight on YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw)
+
+## Radio compatibility
+
+Rotor Rescue 0.6.2 passed the 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2). **Physical radio testing has been completed on the X20RS only.**
+
+| FrSky radio | Simulator | Physical radio |
+| --- | --- | --- |
+| X20RS | Passed | Passed |
+| X20R | Passed | — |
+| X20 Pro | Passed | — |
+| X20 Pro AW | Passed | — |
+| X18R | Passed | — |
+| X18RS | Passed | — |
+
+The X18R and X18RS render slightly larger text. Version 0.6.2 shows `X20RS / 0.6.2` in the game header on all models.
 
 ## Install and start
 
@@ -31,7 +46,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 | --- | --- |
 | ![Two passengers wait beside the helicopter during boarding.](docs/images/boarding.png) | ![Mission complete after returning six passengers to Base.](docs/images/mission-complete.png) |
 
-The menu and gameplay screenshots were captured in the X20RS simulator. Rotor Rescue 0.6.2 was also tested on a physical X20RS.
+The menu and gameplay screenshots were captured in the X20RS simulator.
 
 ## Beat the score
 
