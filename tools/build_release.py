@@ -6,6 +6,7 @@ manifestVersion 1): the script files sit at the ZIP root and the manifest
 lists every one of them, because Suite installs only the listed files into
 RADIO:/scripts/RotorRescue/. On an upgrade Suite first removes the files the
 previously installed manifest listed, so stale files from older versions go.
+The repository's LICENSE travels with it as LICENSE.txt.
 
     python3 tools/build_release.py
 """
@@ -28,6 +29,7 @@ def main():
                      if name.endswith(".wav")), key=lambda p: (len(p), p))
     sources = {path: os.path.join(SCRIPT, *path.split("/")) for path in files}
     sources["INSTALL.txt"] = os.path.join(PACKAGING, "INSTALL.txt")
+    sources["LICENSE.txt"] = os.path.join(ROOT, "LICENSE")
     with open(os.path.join(PACKAGING, "release-notes.md"), encoding="utf-8") as f:
         notes = f.read()
     manifest = {
@@ -36,7 +38,7 @@ def main():
         "key": KEY,
         "version": version,
         "folder": "RotorRescue",
-        "files": files + ["INSTALL.txt"],
+        "files": files + ["INSTALL.txt", "LICENSE.txt"],
         "introduction": "A two-stick helicopter landing game for FrSky ETHOS radios.",
         "releaseNotes": notes,
     }
