@@ -2,15 +2,15 @@
 
 Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six passengers from three mountain pads and get them safely back to Base. The game runs directly on the radio as an ETHOS System tool.
 
-**[Download Rotor Rescue 0.6.4](https://github.com/bliatun-code/RotorRescue/releases/download/v0.6.4/RotorRescue-0.6.4.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
+**[Download Rotor Rescue 0.7.0](https://github.com/bliatun-code/RotorRescue/releases/download/v0.7.0/RotorRescue-0.7.0.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
 
 [![Video cover for Rotor Rescue on FrSky ETHOS. Click to watch the flight demo.](docs/images/video-cover.png)](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
 [Watch a full flight on YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
-## Coming in 0.7.0
+## What's new in 0.7.0
 
-Version 0.7.0 is in testing and has not been released yet. Its scores are the same as in 0.6.4: the flight model and scoring are unchanged.
+Scores compare with earlier versions: the flight model and scoring are unchanged since 0.6.4.
 
 - **Full screen.** The game hides the ETHOS title bar and uses the whole 800 × 480 screen. Close it with the **‹** button at the top left or the RTN key.
 - **Smoother drawing.** Each frame repaints only the part of the screen that changed, usually 2% of it, instead of clearing and repainting the whole window. Paints run about half as many Lua instructions, and frames allocate no memory.
@@ -20,7 +20,7 @@ Version 0.7.0 is in testing and has not been released yet. Its scores are the sa
 
 ## Radio compatibility
 
-Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
+Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** Version 0.7.0 has been tested on the X20RS. [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
 
 | FrSky radio | Simulator | Physical radio |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ The game header shows the radio model reported by ETHOS beside the game version.
 
 ## Install and start
 
-1. Download the `RotorRescue-0.6.4.zip` release asset. Leave the ZIP intact.
+1. Download the `RotorRescue-0.7.0.zip` release asset. Leave the ZIP intact.
 2. Connect the radio to FrSky Suite. Open **Lua library → Install Lua Scripts**, select the ZIP and install it.
 3. Safely disconnect and restart the radio. Open **System → Rotor Rescue**. Swipe to the next System page if the tile is off screen.
 
@@ -49,6 +49,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 - Use aileron to tilt left or right. In Mode 2, throttle is the left stick's vertical axis and aileron is the right stick's horizontal axis. Use short inputs and countersteer to slow down before landing.
 - Visit **Ridge → Lookout → Camp**. Land with the skids inside the brackets and stay on each pad for 1.6 seconds. The two passengers will wait and wave if you leave early.
 - Climb over Lookout on the way back, then land at **Base** to complete the mission. After a crash, **Retry** resumes from the last successful pickup and **New Run** starts from Base.
+- Tap **‹** at the top left or press RTN to leave the game.
 
 ![Rotor Rescue helicopter returning to Base with six passengers.](docs/images/return-to-base.png)
 
@@ -56,7 +57,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 | --- | --- |
 | ![Two passengers wait beside the helicopter during boarding.](docs/images/boarding.png) | ![Mission complete after returning six passengers to Base.](docs/images/mission-complete.png) |
 
-The menu and gameplay screenshots were captured in the X20RS simulator with version 0.6.2.
+The menu and gameplay screenshots were captured in the X20RS simulator with version 0.6.2, which still showed the ETHOS title bar.
 
 ## Beat the score
 
@@ -74,3 +75,7 @@ The game is a single script, [`scripts/RotorRescue/main.lua`](scripts/RotorRescu
 
 - `tools/make_sounds.py` synthesizes the engine sounds. It needs `numpy`.
 - `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It needs `lupa` and `pillow`. Add `--frames DIR` to save PNG frames.
+
+## License
+
+Rotor Rescue is released under the [MIT License](LICENSE).
