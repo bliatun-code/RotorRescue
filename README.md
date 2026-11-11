@@ -8,6 +8,16 @@ Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six p
 
 [Watch a full flight on YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
+## Coming in 0.7.0
+
+Version 0.7.0 is in testing and has not been released yet. Its scores are the same as in 0.6.4: the flight model and scoring are unchanged.
+
+- **Full screen.** The game hides the ETHOS title bar and uses the whole 800 × 480 screen. Close it with the **‹** button at the top left or the RTN key.
+- **Smoother drawing.** Each frame repaints only the part of the screen that changed, usually 2% of it, instead of clearing and repainting the whole window. Paints run about half as many Lua instructions, and frames allocate no memory.
+- **New engine sound.** Ten rotor speed bands, pitch glides between them, and spool-up and wind-down sounds. The sound is tuned for the radio's small speaker, which barely reproduces the deep thump of the 0.6 sound.
+- **Vibration** on a crash, on each pickup and when the mission is complete. ETHOS uses the haptic strength set under System.
+- **Performance readout.** Tap the version line under the title to show frames per second and paint time.
+
 ## Radio compatibility
 
 Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
@@ -55,3 +65,12 @@ Pickups earn 100, 200 and 300 points. Delivering everyone to Base earns another 
 Can you beat **1,310 points in 47.60 seconds with zero retries**?
 
 ![Physical FrSky X20RS showing the local record of 1,310 points in 47.60 seconds with zero retries.](docs/images/x20rs-high-score.jpg)
+
+## Development
+
+The game is a single script, [`scripts/RotorRescue/main.lua`](scripts/RotorRescue/main.lua), with its engine sounds in `scripts/RotorRescue/sounds/`.
+
+- `tools/build_release.py` builds `dist/RotorRescue-<version>.zip` for **Lua library → Install Lua Scripts**. It follows FrSky's [Lua package format](https://github.com/FrSkyRC/ETHOS-Feedback-Community/blob/26.1/lua/frsky/ethos_lua_manifest.md): the files sit at the ZIP root next to `ethos_lua_manifest.json`, which lists every one of them. `packaging/` holds `INSTALL.txt` and the release notes.
+
+- `tools/make_sounds.py` synthesizes the engine sounds. It needs `numpy`.
+- `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It needs `lupa` and `pillow`. Add `--frames DIR` to save PNG frames.

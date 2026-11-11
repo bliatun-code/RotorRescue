@@ -13,3 +13,13 @@ Senk gassen helt for å armere, og øk forsiktig til rundt 60 % for å lette. Ho
 Land på **Ridge → Lookout → Camp**. Stå i ro på hver plattform i 1,6 sekunder for å få begge passasjerene om bord. Etter Camp kan du stige over Lookout og fly tilbake til Base. Etter et krasj lar **Retry** deg fortsette fra siste vellykkede henting. **New Run** starter en ny tur fra Base.
 
 **Top Scores** viser de fem beste turene på radioen. Kortere flytid og færre omstarter gir mer bonus. Rekorden å slå er **1 310 poeng på 47,60 sekunder uten omstart**. [Se flydemoen på YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw).
+
+## Nytt i 0.7.0 (under testing)
+
+- Spillet bruker hele skjermen uten ETHOS-tittellinjen. Avslutt med **‹**-knappen øverst til venstre eller RTN-tasten.
+- Skjermen tegnes raskere fordi bare den delen som endrer seg, tegnes på nytt.
+- Ny motorlyd med ti turtallstrinn, glidende overganger og lyd når rotoren starter og stopper. Lyden er tilpasset den lille høyttaleren i radioen.
+- Radioen vibrerer ved krasj, ved hver henting og når oppdraget er fullført. Styrken følger innstillingen under System.
+- Trykk på versjonslinjen under tittelen for å se bilder per sekund og tegnetid.
+
+Poengene er de samme som i 0.6.4, fordi flymodellen og poengberegningen ikke er endret.
