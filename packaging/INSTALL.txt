@@ -1,0 +1,38 @@
+Rotor Rescue for FrSky ETHOS
+
+Use an offline model with both RF modules disabled before using the sticks
+in the game. You can also play in the X20RS simulator in FrSky Suite.
+
+Installation in FrSky Suite
+1. Open Lua library > Install Lua Scripts and select the Rotor Rescue ZIP.
+2. Install the script, disconnect the radio safely and restart ETHOS.
+3. Open System and find Rotor Rescue. Swipe to the next page if needed.
+
+Manual installation
+Extract main.lua, icon.png and the sounds folder with all its WAV files
+into the scripts/RotorRescue folder on the radio. Restart ETHOS. When
+updating manually, remove that folder's stale main.luac and the old
+rotor*.wav and shift*.wav files before restart.
+
+Flying
+The game fills the whole screen. Tap the < button at the top left or press
+RTN to leave it.
+Lower throttle fully. Raise it gently to spool up and take off. About 52%
+power hovers with a level rotor; start at roughly 60% to lift. On Mode 2,
+throttle is left stick vertical and aileron is right stick horizontal.
+Use small aileron inputs and countersteer before reaching the target.
+Keep the skids inside the highlighted pad, level and moving slowly.
+Land on RIDGE, LOOKOUT and CAMP in order. Stay down for 1.6 seconds at each
+pad to pick up both passengers and score 100, 200 and 300 points. If you
+leave early, they wait and wave until you land again. After CAMP, climb
+over LOOKOUT, then land at BASE with all six passengers to finish.
+
+Use the colored approach cues to correct your height, speed and tilt.
+After a crash, Retry returns to the last pickup with passengers and points.
+New Run clears the current trip. The timer starts at first liftoff.
+Delivery gives 300 more points. The bonus starts at 600 and decreases by
+4 points per second and 150 per retry, down to zero. TOP SCORES shows the
+five best completed trips on this radio. Tap the sound control to mute.
+The radio vibrates on a crash, on each pickup and when the mission is
+complete; the strength follows the haptic setting under System. Tap the
+version line under the title to show frames per second and paint time.
