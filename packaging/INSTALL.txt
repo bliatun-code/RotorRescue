@@ -9,10 +9,10 @@ Installation in FrSky Suite
 3. Open System and find Rotor Rescue. Swipe to the next page if needed.
 
 Manual installation
-Extract main.lua, icon.png and the sounds folder with all its WAV files
-into the scripts/RotorRescue folder on the radio. Restart ETHOS. When
-updating manually, remove that folder's stale main.luac and the old
-rotor*.wav and shift*.wav files before restart.
+Extract main.lua, game.lua, icon.png and the sounds folder with all its WAV
+files into the scripts/RotorRescue folder on the radio. Restart ETHOS. When
+updating manually, remove that folder's stale main.luac and game.luac and
+the old rotor*.wav and shift*.wav files before restart.
 
 Flying
 The game fills the whole screen. Tap the < button at the top left or press
@@ -35,4 +35,10 @@ Delivery gives 300 more points. The bonus starts at 600 and decreases by
 five best completed trips on this radio. Tap the sound control to mute.
 The radio vibrates on a crash, on each pickup and when the mission is
 complete; the strength follows the haptic setting under System. Tap the
-version line under the title to show frames per second and paint time.
+title to show frames per second, paint time and free Lua memory.
+
+Memory
+The game is loaded only while it is open, so the System tile uses almost
+no Lua memory. The readout shows the free Lua memory now and AT OPEN, when
+the game was opened. Leave and reopen the game: AT OPEN should stay about
+the same, which shows that leaving the game gave its memory back.
