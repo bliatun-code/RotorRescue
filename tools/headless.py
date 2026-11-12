@@ -29,7 +29,8 @@ from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT_DIR = os.path.join(ROOT, "scripts", "RotorRescue")
-FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+FONT_FALLBACK = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+OPEN_SANS = "/usr/share/fonts/truetype/open-sans/OpenSans-{}.ttf"
 
 # Arbitrary but distinct values for the ETHOS constants main.lua reads.
 CONSTANTS = dict(
@@ -41,7 +42,14 @@ CONSTANTS = dict(
     KEY_ENTER_FIRST=300, KEY_ENTER_BREAK=301, KEY_ENTER_LONG=302,
     KEY_EXIT_FIRST=310, KEY_EXIT_BREAK=311, KEY_PAGE_BREAK=320,
 )
-FONT_PX = {10: 13, 11: 16, 12: 19, 13: 25, 14: 32}
+# ETHOS font -> Open Sans weight, size (px), letter spacing (px) and the gap from the text's y to
+# its cap tops. Fitted to text in the X20RS simulator (ETHOS 26.1.2); DejaVu Sans stands in when
+# Open Sans is not installed (apt install fonts-open-sans).
+FONT_STYLE = {10: ("Semibold", 12, 1.1, 2), 11: ("Semibold", 15, 0.4, 3), 12: ("Regular", 21, 0.6, 3),
+              13: ("Regular", 25, -0.2, 3), 14: ("Regular", 32, 0.0, 3)}
+
+
+TEXT_MASKS = {}
 
 
 class Canvas:
@@ -58,10 +66,19 @@ class Canvas:
         self.ops = 0
 
     def font_obj(self, font=None):
-        size = FONT_PX.get(font or self.font, 16)
-        if size not in self._fonts:
-            self._fonts[size] = ImageFont.truetype(FONT_PATH, size)
-        return self._fonts[size]
+        """(Pillow font, letter spacing, cap offset) standing in for an ETHOS font."""
+        key = font or self.font
+        if key not in self._fonts:
+            weight, size, spacing, cap = FONT_STYLE.get(key, FONT_STYLE[12])
+            path = OPEN_SANS.format(weight)
+            if not os.path.exists(path):
+                path, spacing = FONT_FALLBACK, 0.0
+            self._fonts[key] = (ImageFont.truetype(path, size), spacing, cap)
+        return self._fonts[key]
+
+    def text_width(self, s):
+        font, spacing, _ = self.font_obj()
+        return sum(font.getlength(ch) for ch in s) + spacing * max(0, len(s) - 1)
 
     def _box(self):
         a, b = self.limit, self.clip
@@ -111,15 +128,31 @@ class Canvas:
                    (x - r, y - r, x + r, y + r))
 
     def text(self, x, y, s, flags):
-        font, c = self.font_obj(), self.color
-        tw = font.getlength(s)
+        (font, spacing, cap), c = self.font_obj(), self.color
+        tw = self.text_width(s)
         if flags == CONSTANTS["CENTERED"]:
             x -= tw / 2
         elif flags == CONSTANTS["RIGHT"]:
             x -= tw
-        th = FONT_PX.get(self.font, 16)
-        self._draw(lambda d, ox, oy: d.text((x - ox, y - oy), s, font=font, fill=c),
-                   (x, y, x + tw, y + th * 1.3))
+        self.ops += 1
+        # Text is rendered once per font and string into a mask, then pasted in the colour.
+        key = (self.font, s)
+        mask = TEXT_MASKS.get(key)
+        if mask is None:
+            mask = Image.new("L", (math.ceil(tw) + 6, math.ceil(font.size * 1.6)), 0)
+            d, cx = ImageDraw.Draw(mask), 3
+            for ch in s:
+                d.text((cx, 0), ch, font=font, fill=255)
+                cx += font.getlength(ch) + spacing
+            TEXT_MASKS[key] = mask
+        left, top = round(x) - 3, round(y + cap - font.getbbox("H")[1])
+        box = self._box()
+        if not box:
+            return
+        x0, y0 = max(box[0], left), max(box[1], top)
+        x1, y1 = min(box[2], left + mask.width), min(box[3], top + mask.height)
+        if x1 > x0 and y1 > y0:
+            self.img.paste(c, (x0, y0, x1, y1), mask.crop((x0 - left, y0 - top, x1 - left, y1 - top)))
 
 
 class Sim:
@@ -211,8 +244,7 @@ class Sim:
                 sim.canvas.clip = (int(x), int(y), int(x + w), int(y + h))
 
         def text_size(s):
-            f = sim.canvas.font_obj()
-            return int(f.getlength(s)), FONT_PX.get(sim.canvas.font, 16)
+            return int(sim.canvas.text_width(s)), sim.canvas.font_obj()[0].size
 
         lcd.color = color
         lcd.font = font
@@ -419,6 +451,34 @@ def fly_mission(sim, out=None, max_seconds=240):
     return g.mode
 
 
+def readme_screenshots(out):
+    """Fly the mission and save the README gameplay screenshots (800 x 480, full screen)."""
+    sim = Sim(800, 480)
+    g, shots = sim.g, {}
+    sim.thr = -1
+    for _ in range(30):
+        sim.step(check=False)
+    t0 = sim.clock
+    while g.mode == "flight" and sim.clock - t0 < 240:
+        sim.thr, sim.ail = autopilot(g, g.target)
+        if not sim.step(check=False):
+            continue
+        # Passengers walking to the door at Ridge.
+        if "boarding" not in shots and g.target == 2 and g.boarding is not None and g.boarding > 0.5:
+            shots["boarding"] = sim.canvas.img.copy()
+        # Heading home with all six, above Camp.
+        if "return-to-base" not in shots and g.target == 1 and not g.support and g.x < 64 and g.y > 16:
+            shots["return-to-base"] = sim.canvas.img.copy()
+    for _ in range(40):
+        sim.thr, sim.ail = -1, 0
+        sim.step(check=False)
+    shots["mission-complete"] = sim.canvas.img.copy()
+    os.makedirs(out, exist_ok=True)
+    for name, img in shots.items():
+        img.save(os.path.join(out, name + ".png"), optimize=True)
+    return sorted(shots)
+
+
 def ui_flows(sim):
     """Menus, a crash and a retry; returns a list of failed checks."""
     g, w, h, failures = sim.g, sim.w, sim.h, []
@@ -477,7 +537,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--frames", help="directory for PNG frames")
     ap.add_argument("--size", default="800x480", help="window size, e.g. 800x480 or 790x409")
+    ap.add_argument("--screenshots", help="save the README gameplay screenshots to this directory and stop")
     args = ap.parse_args()
+    if args.screenshots:
+        print("saved", ", ".join(readme_screenshots(args.screenshots)), "to", args.screenshots)
+        return
     w, h = (int(v) for v in args.size.split("x"))
     failed = False
     for clip in (False, True):

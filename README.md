@@ -62,7 +62,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 | --- | --- |
 | ![Two passengers wait beside the helicopter during boarding.](docs/images/boarding.png) | ![Mission complete after returning six passengers to Base.](docs/images/mission-complete.png) |
 
-The menu and gameplay screenshots were captured in the X20RS simulator with version 0.6.2, which still showed the ETHOS title bar.
+The gameplay screenshots show version 0.7.1 in full screen. They are rendered at 800 × 480 by the project's test bench (`python3 tools/headless.py --screenshots docs/images`) from a scripted flight, with fonts matched to the X20RS simulator. The System menu screenshot was captured in the X20RS simulator.
 
 ## Beat the score
 
@@ -79,7 +79,7 @@ The game lives in [`scripts/RotorRescue/game.lua`](scripts/RotorRescue/game.lua)
 - `tools/build_release.py` builds `dist/RotorRescue-<version>.zip` for **Lua library → Install Lua Scripts**. It follows FrSky's [Lua package format](https://github.com/FrSkyRC/ETHOS-Feedback-Community/blob/26.1/lua/frsky/ethos_lua_manifest.md): the files sit at the ZIP root next to `ethos_lua_manifest.json`, which lists every one of them. The ZIP also carries the license as `LICENSE.txt`. `packaging/` holds `INSTALL.txt` and the release notes.
 
 - `tools/make_sounds.py` synthesizes the engine sounds. It needs `numpy`.
-- `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It also opens and closes the game several times to check that leaving it frees its memory. It needs `lupa` and `pillow`. Add `--frames DIR` to save PNG frames.
+- `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It also opens and closes the game several times to check that leaving it frees its memory. Add `--screenshots DIR` to render the README gameplay screenshots instead. It needs `lupa` and `pillow`, plus the Open Sans font (`fonts-open-sans`) for text that looks like ETHOS. Add `--frames DIR` to save PNG frames.
 
 ## License
 
