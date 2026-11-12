@@ -2,15 +2,13 @@
 
 Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six passengers from three mountain pads and get them safely back to Base. The game runs directly on the radio as an ETHOS System tool.
 
-**[Download Rotor Rescue 0.7.0](https://github.com/bliatun-code/RotorRescue/releases/download/v0.7.0/RotorRescue-0.7.0.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
+**[Download Rotor Rescue 0.7.1](https://github.com/bliatun-code/RotorRescue/releases/download/v0.7.1/RotorRescue-0.7.1.zip)** · [Norsk veiledning](docs/Kom-i-gang.md)
 
 [![Video cover for Rotor Rescue on FrSky ETHOS. Click to watch the flight demo.](docs/images/video-cover.png)](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
 [Watch a full flight on YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
-## Coming in 0.7.1
-
-Version 0.7.1 is in testing and has not been released yet.
+## What's new in 0.7.1
 
 - **Loads only when you play.** ETHOS runs `main.lua` at startup to list the game under System. It is now a small stub that loads the game from `game.lua` when you open it and frees it when you leave. Until then the tile holds about 6 KB of Lua memory instead of about 80 KB.
 - **Memory in the readout.** Tap the title to show frames per second, paint time and free Lua memory, now and **AT OPEN**. Leave and reopen the game: if AT OPEN stays about the same, leaving the game gave its memory back.
@@ -27,7 +25,7 @@ Scores compare with earlier versions: the flight model and scoring are unchanged
 
 ## Radio compatibility
 
-Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** Version 0.7.0 has been tested on the X20RS. [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
+Rotor Rescue 0.6.4 passed 800 × 480 display, stick control and engine audio checks on the models below in FrSky's model-specific simulators. **Physical radio testing has been completed on the X20RS only.** Versions 0.7.0 and 0.7.1 have been tested on the X20RS. [ETHOS 26.1.2 simulators](https://github.com/FrSkyRC/ETHOS-Feedback-Community/releases/tag/26.1.2)
 
 | FrSky radio | Simulator | Physical radio |
 | --- | --- | --- |
@@ -42,7 +40,7 @@ The game header shows the radio model reported by ETHOS beside the game version.
 
 ## Install and start
 
-1. Download the `RotorRescue-0.7.0.zip` release asset. Leave the ZIP intact.
+1. Download the `RotorRescue-0.7.1.zip` release asset. Leave the ZIP intact.
 2. Connect the radio to FrSky Suite. Open **Lua library → Install Lua Scripts**, select the ZIP and install it.
 3. Safely disconnect and restart the radio. Open **System → Rotor Rescue**. Swipe to the next System page if the tile is off screen.
 
