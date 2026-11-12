@@ -49,6 +49,9 @@ FONT_STYLE = {10: ("Semibold", 12, 1.1, 2), 11: ("Semibold", 15, 0.4, 3), 12: ("
               13: ("Regular", 25, -0.2, 3), 14: ("Regular", 32, 0.0, 3)}
 
 
+TEXT_MASKS = {}
+
+
 class Canvas:
     """A framebuffer with a clipping rectangle, drawn with Pillow."""
 
@@ -131,14 +134,25 @@ class Canvas:
             x -= tw / 2
         elif flags == CONSTANTS["RIGHT"]:
             x -= tw
-        top = y + cap - font.getbbox("H")[1]
-
-        def draw(d, ox, oy):
-            cx = x
+        self.ops += 1
+        # Text is rendered once per font and string into a mask, then pasted in the colour.
+        key = (self.font, s)
+        mask = TEXT_MASKS.get(key)
+        if mask is None:
+            mask = Image.new("L", (math.ceil(tw) + 6, math.ceil(font.size * 1.6)), 0)
+            d, cx = ImageDraw.Draw(mask), 3
             for ch in s:
-                d.text((cx - ox, top - oy), ch, font=font, fill=c)
+                d.text((cx, 0), ch, font=font, fill=255)
                 cx += font.getlength(ch) + spacing
-        self._draw(draw, (x - 2, top, x + tw + 2, top + font.size * 1.5))
+            TEXT_MASKS[key] = mask
+        left, top = round(x) - 3, round(y + cap - font.getbbox("H")[1])
+        box = self._box()
+        if not box:
+            return
+        x0, y0 = max(box[0], left), max(box[1], top)
+        x1, y1 = min(box[2], left + mask.width), min(box[3], top + mask.height)
+        if x1 > x0 and y1 > y0:
+            self.img.paste(c, (x0, y0, x1, y1), mask.crop((x0 - left, y0 - top, x1 - left, y1 - top)))
 
 
 class Sim:
