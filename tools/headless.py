@@ -123,8 +123,9 @@ class Canvas:
 
 
 class Sim:
-    def __init__(self, w=800, h=480, system_clip=False, script_dir=SCRIPT_DIR):
+    def __init__(self, w=800, h=480, system_clip=False, script_dir=SCRIPT_DIR, open_tool=True):
         self.w, self.h = w, h
+        self.script_dir = script_dir
         self.system_clip = system_clip
         self.clock = 1000.0
         self.thr, self.ail = -1.0, 0.0
@@ -150,7 +151,23 @@ class Sim:
             os.path.join(script_dir, "main.lua"))
         chunk.init()
         assert self.tool is not None, "registerSystemTool was not called"
+        self.g = None
+        if open_tool:
+            self.open()
+
+    def open(self):
+        """Open the System tool, as tapping its tile does."""
         self.g = self.tool.create()
+
+    def close(self):
+        """Leave the System tool."""
+        if self.tool.close:
+            self.tool.close(self.g)
+        self.g = None
+
+    def lua_kb(self):
+        return self.lua.eval('(function() collectgarbage("collect"); collectgarbage("collect"); '
+                             'return collectgarbage("count") end)()')
 
     # ---- ETHOS mock -----------------------------------------------------
     def _install(self):
@@ -252,6 +269,16 @@ class Sim:
         io.close = lambda fh: fh.close()
         g.io = io
         g.os.clock = lambda: sim.clock
+        # ETHOS resolves SCRIPTS:/ paths; Lua RAM for scripts is a fixed pool (4 MB here).
+        self.lua.execute("""
+            local real, base = loadfile, ...
+            loadfile = function(path, ...)
+                return real((path:gsub("^SCRIPTS:/RotorRescue/", base .. "/")), ...)
+            end
+            system.getMemoryUsage = function()
+                return { luaRamAvailable = 4 * 1024 * 1024 - math.floor(collectgarbage("count") * 1024) }
+            end
+        """, self.script_dir)
         self.lua.execute("""
             local count = 0
             local function hook() count = count + 1 end
@@ -424,7 +451,7 @@ def ui_flows(sim):
     expect(not g.mute, "sound toggles on")
     sim.touch(120, 20)
     run(1.5, -1)
-    expect(g.perf and "FPS" in g.hud.build, "version line shows FPS")
+    expect(g.perf and "FPS" in g.hud.title and "AT OPEN" in g.hud.build, "readout shows FPS and memory")
     sim.touch(120, 20)
     run(0.2)
     expect(not g.perf, "FPS readout toggles off")
@@ -476,6 +503,30 @@ def main():
                 files[f] = files.get(f, 0) + 1
             print(f"   audio clips queued={len(sim.played)} distinct={len(files)} haptics={len(sim.haptics)} "
                   f"title={sim.title}")
+    # Lazy loading: the System tile alone holds little Lua memory, and closing the game
+    # gives back what opening it took.
+    sim = Sim(w, h, open_tool=False)
+    registered = sim.lua_kb()
+    sim.open()
+    for _ in range(60):
+        sim.step(check=False)
+    opened = sim.lua_kb()
+    sim.close()
+    closed = sim.lua_kb()
+    for _ in range(5):
+        sim.open()
+        for _ in range(60):
+            sim.step(check=False)
+        sim.close()
+    closed_again = sim.lua_kb()
+    print(f"[memory] Lua heap: tile only {registered:.0f} KB, game open {opened:.0f} KB (+{opened - registered:.0f}), "
+          f"after close {closed:.0f} KB, after five more openings {closed_again:.0f} KB")
+    # Lua keeps a little of what the game grew (its string table shrinks lazily), but it must
+    # not keep the game, and opening the game again must not add to it.
+    if opened - registered < 20 or closed - registered > 15 or closed_again - closed > 1:
+        print("   lazy loading check failed")
+        failed = True
+
     for size in ((w, h), (790, 409)):
         sim = Sim(*size)
         failures = ui_flows(sim)

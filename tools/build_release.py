@@ -22,9 +22,9 @@ KEY = "io.github.bliatun-code.rotorrescue"
 
 
 def main():
-    with open(os.path.join(SCRIPT, "main.lua"), encoding="utf-8") as f:
+    with open(os.path.join(SCRIPT, "game.lua"), encoding="utf-8") as f:
         version = re.search(r'local VERSION = "(\d+\.\d+\.\d+)"', f.read()).group(1)
-    files = ["main.lua", "icon.png"]
+    files = ["main.lua", "game.lua", "icon.png"]
     files += sorted((f"sounds/{name}" for name in os.listdir(os.path.join(SCRIPT, "sounds"))
                      if name.endswith(".wav")), key=lambda p: (len(p), p))
     sources = {path: os.path.join(SCRIPT, *path.split("/")) for path in files}

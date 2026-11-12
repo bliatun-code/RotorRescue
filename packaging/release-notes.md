@@ -1,11 +1,8 @@
-# Rotor Rescue 0.7.0 — full screen and new engine sound
+# Rotor Rescue 0.7.1 — loads only when you play
 
-- The game uses the whole screen without the ETHOS title bar. Tap the ‹ button at the top left or press RTN to leave.
-- Smoother drawing: each frame repaints only the part of the screen that changed.
-- New engine sound with ten rotor speed bands, pitch glides, and spool-up and wind-down sounds, tuned for the radio speaker.
-- The radio vibrates on a crash, on each pickup and when the mission is complete.
-- Tap the version line to show frames per second and paint time.
-- The flight model and scoring are unchanged, so scores compare with 0.6.4.
+- The game loads when you open it and frees its Lua memory when you leave. Until then the System tile uses about 6 KB of Lua memory instead of about 80 KB.
+- Tap the title to show frames per second, paint time and free Lua memory, now and when the game was opened.
+- Gameplay, sound and scoring are the same as in 0.7.0.
 
 ## About Rotor Rescue
 

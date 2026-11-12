@@ -14,6 +14,11 @@ Land på **Ridge → Lookout → Camp**. Stå i ro på hver plattform i 1,6 seku
 
 **Top Scores** viser de fem beste turene på radioen. Kortere flytid og færre omstarter gir mer bonus. Rekorden å slå er **1 310 poeng på 47,60 sekunder uten omstart**. [Se flydemoen på YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw).
 
+## Nytt i 0.7.1 (under testing)
+
+- Spillet lastes først når du åpner det, og frigjør Lua-minnet når du går ut. Fram til da bruker System-flisen rundt 6 KB i stedet for rundt 80 KB.
+- Trykk på tittelen for å se bilder per sekund, tegnetid og ledig Lua-minne nå og **AT OPEN** (da spillet ble åpnet). Gå ut og åpne spillet igjen: Hvis AT OPEN er omtrent det samme, har spillet gitt tilbake minnet.
+
 ## Nytt i 0.7.0
 
 - Spillet bruker hele skjermen uten ETHOS-tittellinjen. Avslutt med **‹**-knappen øverst til venstre eller RTN-tasten.

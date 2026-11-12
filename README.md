@@ -8,6 +8,13 @@ Fly a rescue helicopter with the sticks on your FrSky ETHOS radio. Pick up six p
 
 [Watch a full flight on YouTube](https://www.youtube.com/watch?v=kaC_bujpgiw)
 
+## Coming in 0.7.1
+
+Version 0.7.1 is in testing and has not been released yet.
+
+- **Loads only when you play.** ETHOS runs `main.lua` at startup to list the game under System. It is now a small stub that loads the game from `game.lua` when you open it and frees it when you leave. Until then the tile holds about 6 KB of Lua memory instead of about 80 KB.
+- **Memory in the readout.** Tap the title to show frames per second, paint time and free Lua memory, now and **AT OPEN**. Leave and reopen the game: if AT OPEN stays about the same, leaving the game gave its memory back.
+
 ## What's new in 0.7.0
 
 Scores compare with earlier versions: the flight model and scoring are unchanged since 0.6.4.
@@ -69,12 +76,12 @@ Can you beat **1,310 points in 47.60 seconds with zero retries**?
 
 ## Development
 
-The game is a single script, [`scripts/RotorRescue/main.lua`](scripts/RotorRescue/main.lua), with its engine sounds in `scripts/RotorRescue/sounds/`.
+The game lives in [`scripts/RotorRescue/game.lua`](scripts/RotorRescue/game.lua), with its engine sounds in `scripts/RotorRescue/sounds/`. [`main.lua`](scripts/RotorRescue/main.lua) only registers the System tool and loads `game.lua` while the game is open.
 
 - `tools/build_release.py` builds `dist/RotorRescue-<version>.zip` for **Lua library → Install Lua Scripts**. It follows FrSky's [Lua package format](https://github.com/FrSkyRC/ETHOS-Feedback-Community/blob/26.1/lua/frsky/ethos_lua_manifest.md): the files sit at the ZIP root next to `ethos_lua_manifest.json`, which lists every one of them. The ZIP also carries the license as `LICENSE.txt`. `packaging/` holds `INSTALL.txt` and the release notes.
 
 - `tools/make_sounds.py` synthesizes the engine sounds. It needs `numpy`.
-- `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It needs `lupa` and `pillow`. Add `--frames DIR` to save PNG frames.
+- `tools/headless.py` is a test bench, not a replacement for the FrSky simulators. It runs the game under Lua 5.4 against a mock of the ETHOS calls it uses, flies a full mission and the menus with scripted sticks, and checks that every partial repaint matches a full one. It also opens and closes the game several times to check that leaving it frees its memory. It needs `lupa` and `pillow`. Add `--frames DIR` to save PNG frames.
 
 ## License
 
