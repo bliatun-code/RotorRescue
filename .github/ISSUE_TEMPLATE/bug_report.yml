@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a problem with Rotor Rescue on a radio or in the ETHOS simulator.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: You can report an issue in English or Norwegian.
+  - type: input
+    id: rotor-version
+    attributes:
+      label: Rotor Rescue version
+      placeholder: "Example: 0.7.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where did it happen?
+      options:
+        - Physical radio
+        - ETHOS simulator
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: radio-ethos-version
+    attributes:
+      label: Radio model and ETHOS version
+      placeholder: "Example: X20RS, ETHOS 26.1.2"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the mission, the controls or menu used, and any exact error message.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Screenshots or a short video can help show what happened.
+    validations:
+      required: true
