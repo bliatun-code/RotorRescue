@@ -1,8 +1,7 @@
-# Rotor Rescue 0.7.1 — loads only when you play
+# Rotor Rescue 0.7.2 — ENTER keeps working
 
-- The game loads when you open it and frees its Lua memory when you leave. Until then the System tile uses about 6 KB of Lua memory instead of about 80 KB.
-- Tap the title to show frames per second, paint time and free Lua memory, now and when the game was opened.
-- Gameplay, sound and scoring are the same as in 0.7.0.
+- ENTER now acts when the key is pressed. Retry, Fly Again and closing Top Scores with ENTER keep working after a touch outside the buttons or after one RTN press.
+- Flying, sound and scoring are the same as in 0.7.1.
 
 ## About Rotor Rescue
 

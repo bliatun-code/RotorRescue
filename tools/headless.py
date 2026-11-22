@@ -525,9 +525,14 @@ def ui_flows(sim):
     expect(g.mode != "crashed" and g.retries == 1, "RETRY resumes with one retry")
     run(2.0, 0.6)
     run(2.0, -1)
-    sim.event("EVT_KEY", "KEY_ENTER_BREAK")
+    # ETHOS always sends FIRST when ENTER goes down, but not always BREAK when it is released,
+    # so the key press alone must retry and the release must not act again.
+    sim.event("EVT_KEY", "KEY_ENTER_FIRST")
     run(0.3, -1)
     expect(g.mode != "crashed" and g.retries == 2, "Enter retries after a crash")
+    sim.event("EVT_KEY", "KEY_ENTER_BREAK")
+    run(0.3, -1)
+    expect(g.mode != "crashed" and g.retries == 2, "releasing Enter does nothing more")
     sim.touch(20, 20)
     expect(sim.exited, "exit button closes the tool")
     return failures

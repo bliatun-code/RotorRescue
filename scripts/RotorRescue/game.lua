@@ -1,6 +1,6 @@
 -- Rotor Rescue: a two-axis, fixed-pitch RC helicopter game for ETHOS.
 -- main.lua loads this file when the game is opened and drops it when it closes.
-local VERSION = "0.7.1"
+local VERSION = "0.7.2"
 local ROOT = "SCRIPTS:/RotorRescue/"
 local STEP, FRAME, GRAVITY = 1 / 60, 1 / 30, 9.81
 -- HUD text refreshes at most this often; a full repaint at least this often while anything moves.
@@ -855,7 +855,10 @@ end
 
 local function event(g, category, value, x, y)
     local finished = g.mode == "won" or g.mode == "crashed"
-    local enter = (category == EVT_KEY and KEY_ENTER_BREAK ~= nil and value == KEY_ENTER_BREAK)
+    -- ENTER acts when the key goes down. ETHOS does not always send the release: after a touch or
+    -- an RTN press that the game leaves to ETHOS, only KEY_ENTER_FIRST arrives.
+    local press = KEY_ENTER_FIRST or KEY_ENTER_BREAK
+    local enter = (category == EVT_KEY and press ~= nil and value == press)
         or (EVT_VIRTUAL ~= nil and category == EVT_VIRTUAL and EVT_VIRTUAL_ENTER ~= nil and value == EVT_VIRTUAL_ENTER)
     if enter and g.showScores then
         g.showScores, g.full = false, true
