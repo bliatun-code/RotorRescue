@@ -66,7 +66,7 @@ For the smoothest flight, select a dedicated blank model with no heavy Lua dashb
 | --- | --- |
 | ![Two passengers wait beside the helicopter during boarding.](docs/images/boarding.png) | ![Mission complete after returning six passengers to Base.](docs/images/mission-complete.png) |
 
-The gameplay screenshots show version 0.7.1 in full screen. They are rendered at 800 × 480 by the project's test bench (`python3 tools/headless.py --screenshots docs/images`) from a scripted flight, with fonts matched to the X20RS simulator. The System menu screenshot was captured in the X20RS simulator.
+The gameplay screenshots show version 0.7.2 in full screen. They are rendered at 800 × 480 by the project's test bench (`python3 tools/headless.py --screenshots docs/images`) from a scripted flight, with fonts matched to the X20RS simulator. The System menu screenshot was captured in the X20RS simulator.
 
 ## Beat the score
 
